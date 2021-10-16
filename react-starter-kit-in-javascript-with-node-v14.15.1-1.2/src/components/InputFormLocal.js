@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -24,18 +25,26 @@ function Copyright(props) {
 
 const theme = createMuiTheme();
 
-export default function InputFormLocal() {
+export default function InputFormLocal({localPeerName, setLocalPeerName}) {
   const label = 'あなたの名前';
+  const [name, setName] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [isComposed, setIsComposed] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  useEffect(() => {
+    const disabled = name === '';
+    setDisabled(disabled);
+  }, [name])
+
+  console.log({name});
+
+  const initializeLocalPeer = useCallback((e) => {
+    console.log('initial!')
+    setLocalPeerName(name);
+    e.preventDefault();
+  }, [name, setLocalPeerName]);
+
+  if (localPeerName !== '') return <></>;
 
   return (
     <ThemeProvider theme={theme}>
@@ -52,7 +61,7 @@ export default function InputFormLocal() {
           <Typography component="h1" variant="h5">
             {label}を入力してください
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+          <Box component="form" noValidate sx={{mt: 1}}>
             <TextField
               variant={"outlined"}
               margin="normal"
@@ -61,6 +70,20 @@ export default function InputFormLocal() {
               label={label}
               name="name"
               autoFocus
+              onChange={(e) => {
+                setName(e.target.value)
+              }}
+              value={name}
+              onKeyDown={(e) => {
+                console.log('keyDown!')
+                if (isComposed) return;
+                if (e.target.value === '') return;
+                if (e.key === 'Enter') initializeLocalPeer(e);
+              }}
+              onCompositionEnd={() => {
+                setIsComposed(false)
+              }}
+              onCompositionStart={() => setIsComposed(true)}
             />
             <Button
               type="submit"
@@ -68,6 +91,8 @@ export default function InputFormLocal() {
               variant="contained"
               color={"primary"}
               sx={{mt: 3, mb: 2}}
+              disabled={disabled}
+              onClick={(e) => initializeLocalPeer(e)}
             >
               決定
             </Button>
