@@ -66,6 +66,7 @@ export default function InputFormLocal() {
               type="submit"
               fullWidth
               variant="contained"
+              color={"primary"}
               sx={{mt: 3, mb: 2}}
             >
               決定
