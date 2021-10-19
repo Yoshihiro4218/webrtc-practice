@@ -80,9 +80,7 @@ export default function InputFormLocal({localPeerName, setLocalPeerName}) {
                 if (e.target.value === '') return;
                 if (e.key === 'Enter') initializeLocalPeer(e);
               }}
-              onCompositionEnd={() => {
-                setIsComposed(false)
-              }}
+              onCompositionEnd={() => setIsComposed(false)}
               onCompositionStart={() => setIsComposed(true)}
             />
             <Button

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -25,18 +25,25 @@ function Copyright(props) {
 
 const theme = createMuiTheme();
 
-export default function InputFormRemote({remotePeerName, setRemotePeerName}) {
+export default function InputFormRemote({localPeerName, remotePeerName, setRemotePeerName}) {
   const label = '相手の名前';
+  const [name, setName] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [isComposed, setIsComposed] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  useEffect(() => {
+    const disabled = name === '';
+    setDisabled(disabled);
+  }, [name])
+
+  const initializeRemotePeer = useCallback((e) => {
+    console.log('initial!')
+    setRemotePeerName(name);
+    e.preventDefault();
+  }, [name, setRemotePeerName]);
+
+  if (localPeerName === '') return <></>;
+  if (remotePeerName !== '') return <></>;
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,7 +60,7 @@ export default function InputFormRemote({remotePeerName, setRemotePeerName}) {
           <Typography component="h1" variant="h5">
             {label}を入力してください
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+          <Box component="form" noValidate sx={{mt: 1}}>
             <TextField
               variant={"outlined"}
               margin="normal"
@@ -62,6 +69,18 @@ export default function InputFormRemote({remotePeerName, setRemotePeerName}) {
               label={label}
               name="name"
               autoFocus
+              onChange={(e) => {
+                setName(e.target.value)
+              }}
+              value={name}
+              onKeyDown={(e) => {
+                console.log('keyDown!')
+                if (isComposed) return;
+                if (e.target.value === '') return;
+                if (e.key === 'Enter') initializeRemotePeer(e);
+              }}
+              onCompositionEnd={() => setIsComposed(false)}
+              onCompositionStart={() => setIsComposed(true)}
             />
             <Button
               type="submit"
@@ -69,6 +88,8 @@ export default function InputFormRemote({remotePeerName, setRemotePeerName}) {
               variant="contained"
               color={"primary"}
               sx={{mt: 3, mb: 2}}
+              disabled={disabled}
+              onClick={(e) => initializeRemotePeer(e)}
             >
               決定
             </Button>
