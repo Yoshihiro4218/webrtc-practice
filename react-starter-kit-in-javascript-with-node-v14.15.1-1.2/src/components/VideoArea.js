@@ -11,7 +11,9 @@ const VideoArea = ({localPeerName, remotePeerName}) => {
         <Grid item xs={12} md={6}>
           <VideoLocal name={localPeerName}>xs=12 md=6</VideoLocal>
         </Grid>
-        <Grid item xs={12} md={6}></Grid>
+        <Grid item xs={12} md={6}>
+          <VideoRemote name={remotePeerName}>xs=12 md=6</VideoRemote>
+        </Grid>
       </Grid>
     </Box>
   );
