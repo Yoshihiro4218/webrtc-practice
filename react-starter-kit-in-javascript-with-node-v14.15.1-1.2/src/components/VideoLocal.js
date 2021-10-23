@@ -9,6 +9,7 @@ const VideoLocal = ({name}) => {
   useEffect(() => {
     if (currentVideoRef === null) return;
 
+    // eslint-disable-next-line
     const getMedia = async () => {
       const constraints = {audio: true, video: true};
       try {

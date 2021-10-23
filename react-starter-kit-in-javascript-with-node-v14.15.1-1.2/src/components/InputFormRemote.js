@@ -39,7 +39,7 @@ export default function InputFormRemote({rtcClient}) {
   const initializeRemotePeer = useCallback((e) => {
     console.log('initial!')
     rtcClient.remotePeerName = name;
-    rtcClient.setRtcClient(rtcClient);
+    rtcClient.setRtcClient();
     e.preventDefault();
   }, [name, rtcClient]);
 
