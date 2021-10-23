@@ -18,8 +18,8 @@ const VideoLocal = ({name}) => {
         console.log(err);
       }
     }
-
-    getMedia();
+    // TODO: comment out
+    // getMedia();
   }, [currentVideoRef]);
 
   return <Video isLocal={true} name={name} videoRef={videoRef}/>;
