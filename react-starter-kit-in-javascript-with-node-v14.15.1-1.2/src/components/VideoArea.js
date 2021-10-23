@@ -5,6 +5,8 @@ import VideoLocal from './VideoLocal';
 import VideoRemote from './VideoRemote';
 
 const VideoArea = ({rtcClient}) => {
+  if (rtcClient === null) return <></>;
+
   return (
     <Box sx={{flexGrow: 1}}>
       <Grid container spacing={3}>

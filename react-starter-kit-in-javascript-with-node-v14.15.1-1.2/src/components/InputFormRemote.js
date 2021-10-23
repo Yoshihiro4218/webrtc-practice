@@ -25,7 +25,7 @@ function Copyright(props) {
 
 const theme = createMuiTheme();
 
-export default function InputFormRemote({rtcClient, setRtcClient}) {
+export default function InputFormRemote({rtcClient}) {
   const label = '相手の名前';
   const [name, setName] = useState('');
   const [disabled, setDisabled] = useState(true);
@@ -39,9 +39,9 @@ export default function InputFormRemote({rtcClient, setRtcClient}) {
   const initializeRemotePeer = useCallback((e) => {
     console.log('initial!')
     rtcClient.remotePeerName = name;
-    setRtcClient(rtcClient);
+    rtcClient.setRtcClient(rtcClient);
     e.preventDefault();
-  }, [name, rtcClient, setRtcClient]);
+  }, [name, rtcClient]);
 
   if (rtcClient.localPeerName === '') return <></>;
   if (rtcClient.remotePeerName !== '') return <></>;

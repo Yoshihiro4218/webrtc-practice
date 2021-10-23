@@ -25,7 +25,7 @@ function Copyright(props) {
 
 const theme = createMuiTheme();
 
-export default function InputFormLocal({rtcClient, setRtcClient}) {
+export default function InputFormLocal({rtcClient}) {
   const label = 'あなたの名前';
   const [name, setName] = useState('');
   const [disabled, setDisabled] = useState(true);
@@ -41,9 +41,9 @@ export default function InputFormLocal({rtcClient, setRtcClient}) {
   const initializeLocalPeer = useCallback((e) => {
     console.log('initial!')
     rtcClient.localPeerName = name;
-    setRtcClient(rtcClient);
+    rtcClient.setRtcClient(rtcClient);
     e.preventDefault();
-  }, [name, rtcClient, setRtcClient]);
+  }, [name, rtcClient]);
 
   if (rtcClient.localPeerName !== '') return <></>;
 
