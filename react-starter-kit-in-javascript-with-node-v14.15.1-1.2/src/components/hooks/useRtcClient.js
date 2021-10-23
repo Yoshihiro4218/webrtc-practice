@@ -10,9 +10,13 @@ const useRtcClient = () => {
     forceRender();
   };
 
-  useEffect(() => {
-    const client = new RtcClient(setRtcClient);
-    client.setRtcClient();
+  useEffect( () => {
+    const init = async () => {
+      const client = new RtcClient(setRtcClient);
+      await client.getUserMedia();
+      client.setRtcClient();
+    };
+    init();
   }, []);
   return rtcClient;
 };

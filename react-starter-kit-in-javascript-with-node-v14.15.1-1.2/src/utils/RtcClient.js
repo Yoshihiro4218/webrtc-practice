@@ -7,9 +7,21 @@ export default class RtcClient {
     this.localPeerName = '';
     this.remotePeerName = '';
     this._setRtcClient = setRtcClient;
+    this.mediaStream = null;
   }
 
   setRtcClient() {
     this._setRtcClient(this);
+  }
+
+  async getUserMedia() {
+    try {
+      const constraints = {audio: true, video: true };
+      // TODO: comment out
+      // this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+    } catch (e) {
+      console.log(e);
+    }
+
   }
 }

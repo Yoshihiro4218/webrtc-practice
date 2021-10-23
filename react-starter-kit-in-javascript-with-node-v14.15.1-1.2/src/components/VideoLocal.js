@@ -2,28 +2,25 @@ import * as React from 'react';
 import {useEffect, useRef} from 'react';
 import Video from './Video';
 
-const VideoLocal = ({name}) => {
+const VideoLocal = ({rtcClient}) => {
   const videoRef = useRef(null);
   const currentVideoRef = videoRef.current;
+  const mediaStream = rtcClient.mediaStream;
 
   useEffect(() => {
     if (currentVideoRef === null) return;
 
-    // eslint-disable-next-line
-    const getMedia = async () => {
-      const constraints = {audio: true, video: true};
+    const getMedia = () => {
       try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
         currentVideoRef.srcObject = mediaStream;
       } catch (err) {
         console.log(err);
       }
     }
-    // TODO: comment out
-    // getMedia();
-  }, [currentVideoRef]);
+    getMedia();
+  }, [currentVideoRef, mediaStream]);
 
-  return <Video isLocal={true} name={name} videoRef={videoRef}/>;
+  return <Video isLocal={true} name={rtcClient.localPeerName} videoRef={videoRef}/>;
 };
 
 export default VideoLocal;
