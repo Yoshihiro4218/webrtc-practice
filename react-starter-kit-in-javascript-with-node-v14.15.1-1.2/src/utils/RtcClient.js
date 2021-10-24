@@ -22,6 +22,7 @@ export default class RtcClient {
       const constraints = {audio: true, video: true};
       // TODO: comment out
       // this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+
     } catch (e) {
       console.log(e);
     }
@@ -29,7 +30,8 @@ export default class RtcClient {
 
   async setMediaStream() {
     await this.getUserMedia();
-    this.addTracks();
+    // TODO: comment out
+    // this.addTracks();
     this.setRtcClient();
   };
 
@@ -58,7 +60,7 @@ export default class RtcClient {
     this.localPeerName = localPeerName;
     this.setRtcClient();
     // listen signalling server
-    const database = this.firebaseSignallingClient.database
+    this.firebaseSignallingClient.database
       .ref(localPeerName)
       .on('value', (snapshot) => {
         const data = snapshot.val();

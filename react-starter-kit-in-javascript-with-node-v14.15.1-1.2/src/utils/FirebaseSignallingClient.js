@@ -1,5 +1,5 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/database';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 export default class FirebaseSignallingClient {
   constructor() {
@@ -12,7 +12,7 @@ export default class FirebaseSignallingClient {
       messagingSenderId: "774056116257",
       appId: "1:774056116257:web:8cd0eb2509642668c1e360"
     };
-    if (firebase.app.length === 0) {
+    if (firebase.apps.length === 0) {
       firebase.initializeApp(firebaseConfig);
     }
     this.database = firebase.database();
